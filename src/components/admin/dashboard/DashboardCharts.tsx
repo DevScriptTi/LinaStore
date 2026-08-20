@@ -23,49 +23,41 @@ interface DashboardChartsProps {
 
 export function DashboardCharts({ orders }: DashboardChartsProps) {
   
-  // 1. Process Daily Revenue & Orders Trend (Last 7 Days)
+  // 1. Process Daily Revenue & Orders Trend (Last 7 Days) using strictly local time keys
   const dailyRevenueData = useMemo(() => {
-    const last7Days: { dateStr: string; label: string; dateObj: Date }[] = [];
-    const today = new Date();
-
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().split("T")[0];
-      const label = d.toLocaleDateString("ar-DZ", { day: "numeric", month: "short" });
-      last7Days.push({ dateStr, label, dateObj: d });
-    }
-
-    return last7Days.map((day) => {
-      let dailyTotal = 0;
-      let dailyOrdersCount = 0;
-
-      orders.forEach((ord) => {
-        let orderDate: Date | null = null;
-        if (ord.createdAt?.toDate) {
-          orderDate = ord.createdAt.toDate();
-        } else if (ord.createdAt) {
-          orderDate = new Date(ord.createdAt);
-        }
-
-        if (orderDate && !isNaN(orderDate.getTime())) {
-          const ordDateStr = orderDate.toISOString().split("T")[0];
-          if (ordDateStr === day.dateStr) {
-            dailyOrdersCount += 1;
-            // Include revenue if not cancelled/returned
-            if (ord.status !== "cancelled" && ord.status !== "returned") {
-              dailyTotal += ord.total || (ord.productPrice * ord.quantity + ord.shippingCost);
-            }
-          }
-        }
-      });
-
+    const last7Days = Array.from({ length: 7 }).map((_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - (6 - i));
       return {
-        name: day.label,
-        revenue: dailyTotal,
-        orders: dailyOrdersCount,
+        matchKey: `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`,
+        name: d.toLocaleDateString("ar-DZ", { day: "numeric", month: "short" }).replace(".", ""),
+        revenue: 0,
+        orders: 0,
       };
     });
+
+    orders.forEach((ord) => {
+      if (!ord.createdAt) return;
+      let orderDate: Date | null = null;
+      if (ord.createdAt?.toDate) {
+        orderDate = ord.createdAt.toDate();
+      } else if (ord.createdAt) {
+        orderDate = new Date(ord.createdAt);
+      }
+
+      if (orderDate && !isNaN(orderDate.getTime())) {
+        const matchKey = `${orderDate.getDate()}-${orderDate.getMonth() + 1}-${orderDate.getFullYear()}`;
+        const dayData = last7Days.find((day) => day.matchKey === matchKey);
+        if (dayData) {
+          dayData.orders += 1;
+          if (ord.status !== "cancelled" && ord.status !== "returned") {
+            dayData.revenue += Number(ord.total || (ord.productPrice * ord.quantity + ord.shippingCost) || 0);
+          }
+        }
+      }
+    });
+
+    return last7Days;
   }, [orders]);
 
   // 2. Process Top Products Sold Data
