@@ -11,8 +11,10 @@ import {
   User, 
   LogOut,
   LayoutDashboard,
-  Key
+  Key,
+  Truck
 } from "lucide-react";
+
 import { auth, db } from "@/lib/firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
@@ -89,6 +91,11 @@ export function AdminSidebar() {
       title: "أصناف المنتجات",
       href: "/dashboard/categories",
       icon: FolderTree,
+    },
+    {
+      title: "مناطق وأسعار التوصيل",
+      href: "/dashboard/shipping",
+      icon: Truck,
     },
   ];
 

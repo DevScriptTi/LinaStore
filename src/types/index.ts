@@ -45,6 +45,10 @@ export interface IOrder {
   customerName: string;
   customerPhone: string;
   wilaya: string;
+  wilayaCode?: string;
+  wilayaName?: string;
+  municipality?: string;
+  deliveryType?: 'home' | 'desk';
   productPrice: number;
   shippingCost: number;
   total: number;
@@ -61,3 +65,16 @@ export interface INotification {
   type: 'new_order' | 'system';
   link?: string;
 }
+
+export interface IShippingZone {
+  id?: string;
+  code: string;
+  nameAr: string;
+  nameFr: string;
+  homeDeliveryFee: number;
+  deskDeliveryFee: number;
+  isActive: boolean;
+  municipalities: string[];
+  updatedAt?: any;
+}
+
