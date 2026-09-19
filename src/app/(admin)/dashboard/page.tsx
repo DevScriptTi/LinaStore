@@ -94,9 +94,9 @@ export default function AdminDashboardPage() {
     <div className="space-y-8 select-none" dir="rtl">
       
       {/* Welcome Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-md-outline/10">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-md-outline/10">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black text-md-surface-on flex items-center gap-3">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-md-surface-on flex items-center gap-3">
             <span>مرحباً بك في لوحة تحكم متجر لينا 🛍️</span>
           </h1>
           <p className="text-xs text-md-surface-on-variant mt-1">
@@ -106,7 +106,7 @@ export default function AdminDashboardPage() {
 
         <Link
           href="/dashboard/orders"
-          className="px-5 py-2.5 rounded-full bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md active:scale-98 transition-all flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-md active:scale-98 transition-all flex items-center justify-center gap-2 shrink-0"
         >
           <ShoppingCart className="w-4 h-4" />
           <span>إدارة جميع الطلبات ({totalOrdersCount})</span>
@@ -114,7 +114,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Summary Stats Grid (COD Business Analytics Cards) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         
         {/* Card 1: Collected Revenue (Delivered Orders) */}
         <div className="p-6 rounded-3xl bg-gradient-to-br from-emerald-500/10 via-md-surface-container to-md-surface-container border border-emerald-500/30 space-y-3 shadow-sm relative overflow-hidden">
@@ -240,8 +240,8 @@ export default function AdminDashboardPage() {
               <p className="text-sm font-bold text-md-surface-on">لا توجد طلبات في المتجر حالياً.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-right text-xs">
+            <div className="overflow-x-auto scrollbar-thin">
+              <table className="w-full min-w-[650px] text-right text-xs">
                 <thead className="bg-md-surface-container-low border-b border-md-outline/10 text-md-surface-on-variant font-bold">
                   <tr>
                     <th className="px-5 py-3.5">العميل</th>

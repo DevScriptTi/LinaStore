@@ -143,7 +143,7 @@ export function DashboardCharts({ orders }: DashboardChartsProps) {
           </div>
         </div>
 
-        <div className="h-[280px] w-full pt-2">
+        <div className="h-[250px] sm:h-[300px] w-full pt-2">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={dailyRevenueData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
               <defs>
@@ -187,7 +187,7 @@ export function DashboardCharts({ orders }: DashboardChartsProps) {
             لا توجد بيانات مبيعات كافية لعرض الرسم البياني.
           </div>
         ) : (
-          <div className="h-[280px] w-full pt-2">
+          <div className="h-[250px] sm:h-[300px] w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topProductsData} layout="vertical" margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#88888820" horizontal={false} />

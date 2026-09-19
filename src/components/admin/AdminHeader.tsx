@@ -7,7 +7,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { INotification } from "@/types";
 import { db } from "@/lib/firebase/config";
 import { collection, query, orderBy, limit, onSnapshot, doc, updateDoc } from "firebase/firestore";
-import { Bell, Store, CheckCheck, ShoppingBag, Clock, ExternalLink } from "lucide-react";
+import { Bell, Store, CheckCheck, ShoppingBag, Clock, ExternalLink, Menu } from "lucide-react";
 
 const mockNotifications: INotification[] = [
   {
@@ -30,7 +30,11 @@ const mockNotifications: INotification[] = [
   },
 ];
 
-export function AdminHeader() {
+interface AdminHeaderProps {
+  onToggleSidebar?: () => void;
+}
+
+export function AdminHeader({ onToggleSidebar }: AdminHeaderProps) {
   const router = useRouter();
   const [notifications, setNotifications] = useState<INotification[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -131,9 +135,21 @@ export function AdminHeader() {
   };
 
   return (
-    <header className="h-16 border-b border-md-outline/10 bg-md-surface/80 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-20 select-none" dir="rtl">
+    <header className="h-16 border-b border-md-outline/10 bg-md-surface/80 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between sticky top-0 z-20 select-none" dir="rtl">
       <div className="flex items-center gap-3">
-        <h1 className="text-lg font-bold text-md-surface-on">متجر لينا - لوحة التحكم</h1>
+        {/* Mobile Hamburger Toggle Button */}
+        <button
+          type="button"
+          onClick={onToggleSidebar}
+          className="lg:hidden p-2 rounded-xl text-md-surface-on hover:bg-md-surface-container-high transition-colors focus:outline-none"
+          title="فتح القائمة"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+
+        <h1 className="text-sm sm:text-lg font-bold text-md-surface-on truncate">
+          متجر لينا <span className="hidden sm:inline">- لوحة التحكم</span>
+        </h1>
       </div>
 
       <div className="flex items-center gap-4">
